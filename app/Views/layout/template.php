@@ -17,7 +17,7 @@
 
 <body>
 	<?= $this->include('layout/navbar'); ?>
-
+	
 	<?= $this->renderSection('content'); ?>
 
 	<!-- Optional JavaScript -->

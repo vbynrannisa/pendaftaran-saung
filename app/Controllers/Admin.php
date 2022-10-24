@@ -38,6 +38,21 @@ class Admin extends BaseController
     public function save()
     {
         $data = $this->request->getPost();
+      
+        $Rules = [
+            'nisn' => 'required|min_length[5]|max_length[20]|is_unique[saung.nisn]',
+            'nik' => 'required|min_length[5]|max_length[20]|is_unique[saung.nik]',
+            'email' => 'required|valid_email|is_unique[saung.email]',
+
+        ];
+
+        if (!$this->validate($Rules)) {
+            $error = $this->validator->getErrors();
+            $error = implode("<br>", $error);
+            //    redirect back with input
+            return redirect()->back()->withInput()->with('error', $error);
+        }
+        
         $this->adminModel->save(
             $data
         );
@@ -60,7 +75,7 @@ class Admin extends BaseController
     public function delete($id)
     {
         $this->adminModel->delete($id);
-        $this->adminModel->getReset();
+        // $this->adminModel->getReset();
 
         session()->setFlashdata('pesanDelete', 'Data berhasil dihapus..');
         return redirect()->to('/admin');

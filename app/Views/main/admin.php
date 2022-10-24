@@ -8,11 +8,12 @@
         <div class="col">
             <div class="info">
                 <center>
-                    <h2><i class="fas fa-th-list"></i>&nbsp;&nbsp;<b>KELOLA DATA SISWA</b></h2>
+                    <h2><i class="fas fa-th-list"></i>&nbsp;&nbsp;Kelola Data Siswa Saung IT</h2>
                 </center>
                 <hr style="border: 1px grey solid;">
             </div><br>
 
+            <?= $this->include('layout/_messages'); ?>
             <?php if (session()->getFlashdata('pesanAdd')) : ?>
                 <div class="alert alert-success" role="alert">
                     <?= session()->getFlashdata('pesanAdd'); ?>
@@ -87,6 +88,7 @@
                             <th scope="col">No</th>
                             <th scope="col">Periode Masuk</th>
                             <th scope="col">Periode Lulus</th>
+                            <th scope="col">E-Mail</th>
                             <th scope="col">Kelas</th>
                             <th scope="col">Nama Lengkap</th>
                             <th scope="col">NIK</th>
@@ -100,8 +102,7 @@
                             <th scope="col">Asal Instansi/Sekolah</th>
                             <th scope="col">No Hp</th>
                             <th scope="col">Nama Ayah</th>
-                            <th scope="col">Nama Ibu/th>
-                            <th scope="col">E-Mail</th>
+                            <th scope="col">Nama Ibu</th>
                             <th scope="col">Akun Sosial Media</th>
                         </tr>
                     </thead>
@@ -112,6 +113,7 @@
                                 <th scope="row"><?= $i++; ?></th>
                                 <td><?= $dt['periode_masuk']; ?></td>
                                 <td><?= $dt['periode_lulus']; ?></td>
+                                <td><?= $dt['email']; ?></td>
                                 <td><?= $dt['kelas']; ?></td>
                                 <td><?= $dt['nama']; ?></td>
                                 <td><?= $dt['nik']; ?></td>
@@ -126,13 +128,193 @@
                                 <td><?= $dt['no_hp']; ?></td>
                                 <td><?= $dt['nama_ayah']; ?></td>
                                 <td><?= $dt['nama_ibu']; ?></td>
-                                <td><?= $dt['email']; ?></td>
                                 <td><?= $dt['sosmed']; ?></td>
                                 <td class="btn-class">
                                     <button type="button" class="edit btn btn-warning btn-sm" data-toggle="modal" data-target="#update"><i class="fas fa-edit"></i>&nbsp;&nbsp;Ubah</button>
                                     <button type="button" class="del btn btn-danger btn-sm" data-toggle="modal" data-target="#delete"><i class="far fa-trash-alt"></i>&nbsp;&nbsp;Hapus</button>
                                 </td>
                             </tr>
+
+
+                            <!-- EDIT -->
+                            <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 style="color:black;" class="modal-title" id="exampleModalLabel">UPDATE DATA</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <form action="<?= base_url('admin/update/' . $dt['id']); ?>" method="POST">
+                                            <?= csrf_field(); ?>
+                                            <input type="hidden" name="_method" value="UPDATE">
+                                            <div class="modal-body bg-dark">
+
+                                                <div class="registry">
+                                                    <div class="avatar">
+                                                        <i class="pencil fas fa-pencil-alt"></i>
+                                                        <i class="book fas fa-book-open"></i>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-child"></i>
+                                                        <input type="name" placeholder="Nama Lengkap" name="nama" value="<?= $dt['nama']; ?>" autofocus required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-book"></i>
+                                                        <input type="text" placeholder="Tempat Lahir" name="tempat_lahir" value="<?= $dt['tempat_lahir'] ?>" required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-book"></i>
+                                                        <input type="date" placeholder="Tanggal Lahir" name="tanggal_lahir" value="<?= $dt['tanggal_lahir'] ?>" required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-child"></i>
+                                                        <input type="name" placeholder="Alamat" name="alamat" value="<?= $dt['alamat'] ?>" required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-user"></i>
+                                                        <input type="name" placeholder="Jenis Kelamin" name="jenis_kelamin" value="<?= $dt['jenis_kelamin'] ?>" required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-child"></i>
+                                                        <select name="agama" class="ml-4 form-control ">
+                                                            <option value="">--Pilih agama--</option>
+                                                            <?php $agama = ['islam', 'kristen', 'katolik', 'hindu', 'budha', 'konghucu']; ?>
+                                                            <?php foreach ($agama as $ag) : ?>
+                                                                <?php if ($ag == $dt['agama']) : ?>
+                                                                    <option value="<?= $ag; ?>" selected><?= $ag; ?></option>
+                                                                <?php else : ?>
+                                                                    <option value="<?= $ag; ?>"><?= $ag; ?></option>
+                                                                <?php endif; ?>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-building"></i>
+                                                        <input type="number" placeholder="NIK" name="nik" value="<?= $dt['nik'] ?>" required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-building"></i>
+                                                        <input type="number" placeholder="NISN" name="nisn" value="<?= $dt['nisn'] ?>" required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-building"></i>
+                                                        <input type="text" placeholder="Asal Institusi/Sekolah" name="asal_sekolah" value="<?= $dt['asal_sekolah'] ?>" required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-building"></i>
+                                                        <input type="text" placeholder="Asal Jurusan" name="jurusan" value="<?= $dt['jurusan'] ?>" required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-envelope-open-text"></i>
+                                                        <input type="text" placeholder="Nama Ayah" name="nama_ayah" value="<?= $dt['nama_ayah'] ?>" required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-envelope-open-text"></i>
+                                                        <input type="text" placeholder="Nama Ibu" name="nama_ibu" value="<?= $dt['nama_ibu'] ?>" required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fab fa-whatsapp"></i>
+                                                        <input type="text" placeholder="No Whatsapp" name="no_hp" value="<?= $dt['no_hp'] ?>" required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-envelope-open-text"></i>
+                                                        <input type="email" placeholder="Email" name="email" value="<?= $dt['email'] ?>" required>
+                                                    </div>
+
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-envelope-open-text"></i>
+                                                        <input type="text" placeholder="Akun Sosial Media" name="sosmed" value="<?= $dt['sosmed'] ?>" required>
+                                                    </div>
+
+                                                    <!-- kelas -->
+                                                    <div class="box-registry">
+                                                        <i class="fas fa-building"></i>
+                                                        <select name="kelas" class="ml-4 form-control ">
+                                                            <option value="">--Pilih Kelas--</option>
+                                                            <?php $kelas = ['pagi', 'sore', 'kursus'] ?>
+                                                            <?php foreach ($kelas as $kls) : ?>
+                                                                <?php if ($kls == $dt['kelas']) : ?>
+                                                                    <option value="<?= $kls; ?>" selected><?= $kls; ?></option>
+                                                                <?php else : ?>
+                                                                    <option value="<?= $kls; ?>"><?= $kls; ?></option>
+                                                                <?php endif; ?>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="button-class">
+                                                        <button type="submit" name="update" class="btn btn-primary">
+                                                            <i class="fas fa-check"></i>&nbsp;&nbsp;Ubah
+                                                        </button>
+
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" class="button btn btn-danger">
+                                                            <i class="fas fa-times"></i>&nbsp;&nbsp;Batal
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DELETE -->
+                            <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 style="color:black;" class="modal-title" id="exampleModalLabel">HAPUS DATA</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <form action="<?= base_url('admin/delete/' . $dt['id']); ?>" method="POST">
+                                            <?= csrf_field(); ?>
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <div class="modal-body bg-dark">
+                                                <div class="avatar">
+                                                    <i class="delicon far fa-trash-alt"></i>
+                                                    <i class="book fas fa-book-open"></i>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h5>Apakah anda yakin akan menghapus data ini ?</h5>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="button-class">
+                                                    <button type="submit" name="delete" class="btn btn-primary">
+                                                        <i class="fas fa-check"></i>&nbsp;&nbsp;Hapus
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" class="button btn btn-danger">
+                                                        <i class="fas fa-times"></i>&nbsp;&nbsp;Batal
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -149,322 +331,132 @@
                             </button>
                         </div>
 
-                        <form action="<?= base_url('saung/save'); ?>" method="POST">
+                        <form action="<?= base_url('admin/save') ?>" method="POST">
                             <?= csrf_field(); ?>
-                            <div class="registry">
+                            <div class="modal-body bg-dark">
                                 <div class="avatar">
                                     <i class="pencil fas fa-pencil-alt"></i>
                                     <i class="book fas fa-book-open"></i>
                                 </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-stopwatch">
-                                        <input placeholder="Periode Masuk">
-                                        <input type="date" name="periode_masuk" required></i>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-stopwatch">
-                                        <input placeholder="Periode Keluar">
-                                        <input type="date" name="periode_lulus" required></i>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-book"></i>
-                                    <select name="kelas" class="ml-4 form-control">
-                                        <option value="">--Kelas--</option>
-                                        <option value="pagi">Pagi</option>
-                                        <option value="sore">Sore</option>
-                                        <option value="kursus">Kursus</option>
-                                    </select>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-child"></i>
-                                    <input type="name" placeholder="Nama Lengkap" name="nama" required>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-book"></i>
-                                    <input type="text" placeholder="Tempat Lahir" name="tempat_lahir" required>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-calendar-check">
-                                        <input placeholder="Tanggal Lahir">
-                                        <input type="date" name="tanggal_lahir" required></i>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-house-user"></i>
-                                    <input type="name" placeholder="Alamat" name="alamat" required>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-venus-mars"></i>
-                                    <select name="jenis_kelamin" class="ml-4 form-control ">
-                                        <option value="">--Pilih Jenis Kelamin--</option>
-                                        <option value="laki-laki">Laki-Laki</option>
-                                        <option value="perempuan">Perempuan</option>
-                                    </select>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-pray"></i>
-                                    <select name="agama" class="ml-4 form-control ">
-                                        <option value="">--Pilih agama--</option>
-                                        <option value="islam">Islam</option>
-                                        <option value="kristen">Kristen</option>
-                                        <option value="Katolik">Katolik</option>
-                                        <option value="Hindu">Hindu</option>
-                                        <option value="Budha">Budha</option>
-                                        <option value="Konghucu">Konghucu</option>
-                                    </select>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fa fa-clipboard"></i>
-                                    <input type="number" placeholder="NIK" name="nik" required>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fa fa-list-ol"></i>
-                                    <input type="number" placeholder="NISN" name="nisn" required>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-building"></i>
-                                    <input type="text" placeholder="Asal Institusi/Sekolah" name="asal_sekolah" required>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-ad"></i>
-                                    <input type="text" placeholder="Asal Jurusan" name="jurusan" required>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-mars"></i>
-                                    <input type="text" placeholder="Nama Ayah" name="nama_ayah" autofocus required>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-venus"></i>
-                                    <input type="text" placeholder="Nama Ibu" name="nama_ibu" autofocus required>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fab fa-whatsapp"></i>
-                                    <input type="number" placeholder="No Whatsapp" name="no_hp" required>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-envelope-open-text"></i>
-                                    <input type="email" placeholder="Email" name="email" autofocus required>
-                                </div>
-
-                                <div class="box-registry">
-                                    <i class="fas fa-users"></i>
-                                    <input type="text" placeholder="Akun Sosial Media" name="sosmed" autofocus required>
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="button-class">
-                                        <button type="submit" name="create" class="btn btn-primary">
-                                            <i class="fas fa-check"></i>&nbsp;&nbsp;Tambah
-                                        </button>
-
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" class="button btn btn-danger">
-                                            <i class="fas fa-times"></i>&nbsp;&nbsp;Batal
-                                        </button>
-                                    </div>
-                                </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <!-- EDIT -->
-            <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 style="color:black;" class="modal-title" id="exampleModalLabel">UPDATE DATA</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-
-                        <form action="<?= base_url('admin/update/' . $dt['id']); ?>" method="POST">
-                            <?= csrf_field(); ?>
-                            <input type="hidden" name="_method" value="UPDATE">
-                            <div class="modal-body bg-dark">
-                                <div class="avatar">
-                                    <i class="edicon far fa-edit"></i>
-                                    <i class="book fas fa-book-open"></i>
-                                </div>
-                                <div class="registry">
-                                    <div class="avatar">
-                                        <i class="pencil fas fa-pencil-alt"></i>
-                                        <i class="book fas fa-book-open"></i>
-                                    </div>
+                                <div class="form-group">
                                     <div class="box-registry">
-                                        <div class="box-registry">
-                                            <i class="fas fa-stopwatch">
-                                                <input placeholder="Periode Masuk">
-                                                <input type="date" name="periode_masuk" required></i>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-stopwatch">
-                                                <input placeholder="Periode Keluar">
-                                                <input type="date" name="periode_lulus" required></i>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-book"></i>
-                                            <select name="kelas" class="ml-4 form-control">
-                                                <option value="">--Kelas--</option>
-                                                <option value="pagi">Pagi</option>
-                                                <option value="sore">Sore</option>
-                                                <option value="kursus">Kursus</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-child"></i>
-                                            <input type="name" placeholder="Nama Lengkap" name="nama" required>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-book"></i>
-                                            <input type="text" placeholder="Tempat Lahir" name="tempat_lahir" required>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-calendar-check">
-                                                <input placeholder="Tanggal Lahir">
-                                                <input type="date" name="tanggal_lahir" required></i>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-house-user"></i>
-                                            <input type="name" placeholder="Alamat" name="alamat" required>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-venus-mars"></i>
-                                            <select name="jenis_kelamin" class="ml-4 form-control ">
-                                                <option value="">--Pilih Jenis Kelamin--</option>
-                                                <option value="laki-laki">Laki-Laki</option>
-                                                <option value="perempuan">Perempuan</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-pray"></i>
-                                            <select name="agama" class="ml-4 form-control ">
-                                                <option value="">--Pilih agama--</option>
-                                                <option value="islam">Islam</option>
-                                                <option value="kristen">Kristen</option>
-                                                <option value="Katolik">Katolik</option>
-                                                <option value="Hindu">Hindu</option>
-                                                <option value="Budha">Budha</option>
-                                                <option value="Konghucu">Konghucu</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fa fa-clipboard"></i>
-                                            <input type="number" placeholder="NIK" name="nik" required>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fa fa-list-ol"></i>
-                                            <input type="number" placeholder="NISN" name="nisn" required>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-building"></i>
-                                            <input type="text" placeholder="Asal Institusi/Sekolah" name="asal_sekolah" required>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-ad"></i>
-                                            <input type="text" placeholder="Asal Jurusan" name="jurusan" required>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-mars"></i>
-                                            <input type="text" placeholder="Nama Ayah" name="nama_ayah" autofocus required>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-venus"></i>
-                                            <input type="text" placeholder="Nama Ibu" name="nama_ibu" autofocus required>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fab fa-whatsapp"></i>
-                                            <input type="number" placeholder="No Whatsapp" name="no_hp" required>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-envelope-open-text"></i>
-                                            <input type="email" placeholder="Email" name="email" autofocus required>
-                                        </div>
-
-                                        <div class="box-registry">
-                                            <i class="fas fa-users"></i>
-                                            <input type="text" placeholder="Akun Sosial Media" name="sosmed" autofocus required>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <div class="button-class">
-                                                <button type="submit" name="update" class="btn btn-primary">
-                                                    <i class="fas fa-check"></i>&nbsp;&nbsp;Ubah
-                                                </button>
-
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal" class="button btn btn-danger">
-                                                    <i class="fas fa-times"></i>&nbsp;&nbsp;Batal
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <i class="fas fa-stopwatch"></i>
+                                        <input type="date" placeholder="Periode Masuk" name="periode_masuk" value="<?= old('periode_masuk') ?>" required>
                                     </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
 
+                                    <div class="box-registry">
+                                        <i class="fas fa-stopwatch"></i>
+                                        <input type="date" placeholder="Periode Masuk" name="periode_lulus" value="<?= old('periode_lulus') ?>" required>
+                                    </div>
 
+                                    <div class="box-registry">
+                                        <i class="fas fa-child"></i>
+                                        <input type="name" placeholder="Nama Lengkap" name="nama" value="<?= old('nama') ?>" required>
+                                    </div>
 
-            <!-- DELETE -->
-            <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 style="color:black;" class="modal-title" id="exampleModalLabel">HAPUS DATA</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
+                                    <div class="box-registry">
+                                        <i class="fas fa-book"></i>
+                                        <input type="text" placeholder="Tempat Lahir" name="tempat_lahir" value="<?= old('tempat_lahir') ?>" required>
+                                    </div>
 
-                        <form action="<?= base_url('admin/delete/' . $dt['id']); ?>" method="POST">
-                            <?= csrf_field(); ?>
-                            <input type="hidden" name="_method" value="DELETE">
-                            <div class="modal-body bg-dark">
-                                <div class="avatar">
-                                    <i class="delicon far fa-trash-alt"></i>
-                                    <i class="book fas fa-book-open"></i>
-                                </div>
-                                <div class="modal-body">
-                                    <h5>Apakah anda yakin akan menghapus data ini ?</h5>
+                                    <div class="box-registry">
+                                        <i class="fas fa-book"></i>
+                                        <input type="date" placeholder="Tanggal Lahir" name="tanggal_lahir" value="<?= old('tanggal_lahir') ?>" required>
+                                    </div>
+
+                                    <div class="box-registry">
+                                        <i class="fas fa-child"></i>
+                                        <input type="name" placeholder="Alamat" name="alamat" value="<?= old('alamat') ?>" required>
+                                    </div>
+
+                                    <div class="box-registry">
+                                        <i class="fas fa-user"></i>
+                                        <input type="name" placeholder="Jenis Kelamin" name="jenis_kelamin" value="<?= old('jenis_kelamin') ?>" required>
+                                    </div>
+
+                                    <div class="box-registry">
+                                        <i class="fas fa-child"></i>
+                                        <select name="agama" class="ml-4 form-control" required>
+                                            <option value="">--Pilih agama--</option>
+                                            <?php $agama = ['islam', 'kristen', 'katolik', 'hindu', 'budha', 'konghucu']; ?>
+                                            <?php foreach ($agama as $a) : ?>
+                                                <!-- if old is true -->
+                                                <?php if (old('agama') == $a) : ?>
+                                                    <option value="<?= $a; ?>" selected><?= $a; ?></option>
+                                                <?php else : ?>
+                                                    <option value="<?= $a; ?>"><?= $a; ?></option>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+
+                                    <div class="box-registry">
+                                        <i class="fas fa-building"></i>
+                                        <input type="number" placeholder="NIK" name="nik" value="<?= old('nik') ?>" required>
+                                    </div>
+
+                                    <div class="box-registry">
+                                        <i class="fas fa-building"></i>
+                                        <input type="number" placeholder="NISN" name="nisn" value="<?= old('nisn') ?>" required>
+                                    </div>
+
+                                    <div class="box-registry">
+                                        <i class="fas fa-building"></i>
+                                        <input type="text" placeholder="Asal Institusi/Sekolah" name="asal_sekolah" value="<?= old('asal_sekolah') ?>" required>
+                                    </div>
+
+                                    <div class="box-registry">
+                                        <i class="fas fa-building"></i>
+                                        <input type="text" placeholder="Asal Jurusan" name="jurusan" value="<?= old('jurusan') ?>" required>
+                                    </div>
+
+                                    <div class="box-registry">
+                                        <i class="fas fa-envelope-open-text"></i>
+                                        <input type="text" placeholder="Nama Ayah" name="nama_ayah" value="<?= old('nama_ayah') ?>" required>
+                                    </div>
+
+                                    <div class="box-registry">
+                                        <i class="fas fa-envelope-open-text"></i>
+                                        <input type="text" placeholder="Nama Ibu" name="nama_ibu" value="<?= old('nama_ibu') ?>" required>
+                                    </div>
+
+                                    <div class="box-registry">
+                                        <i class="fab fa-whatsapp"></i>
+                                        <input type="text" placeholder="No Whatsapp" name="no_hp" value="<?= old('no_hp') ?>" required>
+                                    </div>
+
+                                    <div class="box-registry">
+                                        <i class="fas fa-envelope-open-text"></i>
+                                        <input type="email" placeholder="Email" name="email" value="<?= old('email') ?>" required>
+                                    </div>
+
+                                    <div class="box-registry">
+                                        <i class="fas fa-envelope-open-text"></i>
+                                        <input type="text" placeholder="Akun Sosial Media" name="sosmed" value="<?= old('sosmed') ?>" required>
+                                    </div>
+
+                                    <?php $kelas = ['pagi', 'sore', 'kursus'] ?>
+                                    <div class="box-registry">
+                                        <i class="fas fa-envelope-open-text"></i>
+                                        <select name="kelas" class="ml-4 form-control ">
+                                            <option value="">--Pilih Kelas--</option>
+                                            <?php foreach ($kelas as $k) : ?>
+                                                <!-- if old vavlue is true -->
+                                                <?php if (old('kelas') == $k) : ?>
+                                                    <option value="<?= $k; ?>" selected><?= $k; ?></option>
+                                                <?php else : ?>
+                                                    <option value="<?= $k ?>"><?= $k ?></option>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <div class="button-class">
-                                    <button type="submit" name="delete" class="btn btn-primary">
-                                        <i class="fas fa-check"></i>&nbsp;&nbsp;Hapus
+                                    <button type="submit" name="create" class="btn btn-primary">
+                                        <i class="fas fa-check"></i>&nbsp;&nbsp;Tambah
                                     </button>
 
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal" class="button btn btn-danger">
