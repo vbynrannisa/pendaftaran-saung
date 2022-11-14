@@ -5,6 +5,7 @@
 	<div class="row">
 		<div class="col">
 			<div class="konten">
+				
 				<img class="pict1" src="<?= base_url('img/logo.png'); ?>">
 			</div>
 			<center>

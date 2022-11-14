@@ -67,7 +67,7 @@
 							<hr style="border: 1px grey solid;">
 							<div class="inner-content">
 								<p>Klik tombol dibawah ini untuk men-download..</p>
-								<a type="button" class="btn btn-info btn-sm" href="public/img/CP.pdf"><i class="fas fa-download"></i>&nbsp;&nbsp;Download Company Profile</a>
+								<a type="button" class="btn btn-info btn-sm" href="public/img/CP.pdf" download><i class="fas fa-download"></i>&nbsp;&nbsp;Download Company Profile</a>
 							</div>
 						</td>
 					</tr>

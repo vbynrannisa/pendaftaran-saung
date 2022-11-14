@@ -39,6 +39,21 @@ class Saung extends BaseController
     {
         $data = $this->request->getPost();
 
+        // validation
+        $Rules = [
+            'nisn' => 'required|min_length[5]|max_length[20]|is_unique[saung.nisn]',
+            'nik' => 'required|min_length[5]|max_length[20]|is_unique[saung.nik]',
+            'email' => 'required|valid_email|is_unique[saung.email]',
+
+        ];
+
+        if (!$this->validate($Rules)) {
+            $error = $this->validator->getErrors();
+            $error = implode("<br>", $error);
+            //    redirect back with input
+            return redirect()->back()->withInput()->with('error', $error);
+        }
+
         $this->saungModel->save($data);
 
         session()->setFlashdata('Pesan', 'PENDAFTARAN BERHASIL^^..., segera Konfirmasi Pendaftaran & Melakukan Pembayaran!');

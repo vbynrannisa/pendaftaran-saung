@@ -77,10 +77,10 @@
 			font-weight: bold;
 		}
 		header .menu-toggle button {
-			background-color: rgba(221, 72, 20, .6);
+			background-color: rgba(242, 242, 242, 1);
 			border: none;
 			border-radius: 3px;
-			color: rgba(255, 255, 255, 1);
+			color: rgba(221, 72, 20, 1);
 			cursor: pointer;
 			font: inherit;
 			font-size: 1.3rem;
