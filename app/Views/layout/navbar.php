@@ -13,10 +13,10 @@
 				<a class="nav-link text-white" href="<?= base_url('about') ?>">Tentang</a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link text-white " href="<?= base_url('registry') ?>">Pendaftaran</a>
+				<a class="nav-link text-white " href="<?= base_url('registry') ?>">Pendaftaran</a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link text-white" href="<?= base_url('saung') ?>">Siswa</a>
+				<a class="nav-link text-white" href="<?= base_url('saung') ?>">Siswa</a>
 			</li>
 
 			<div class="collapse navbar-collapse" id="navbarNavDropdown">
